@@ -5,9 +5,11 @@ public class GameControl : MonoBehaviour {
 	public static Rocket rocket;
 	public static PhysicsEngine physics;
 	public static UIControl uiControl;
+	public static GameControl self;
 	public float prepTime;
 	void Awake(){
 		prepTime = 5f;
+		self = this;
 	}
 	// Use this for initialization
 	void Start () {
@@ -31,7 +33,13 @@ public class GameControl : MonoBehaviour {
 				uiControl.HideTimerPanel();
 			}
 			physics.physicsStarted = true;
-			//rocket.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 10f);
+			if(Input.GetKey("w")){
+				rocket.thrustMagnitude += 10f;
+			}else if(Input.GetKeyUp("w")){
+				//apply thrust
+				Debug.Log("thrusting");
+				rocket.thrusting = true;
+			}
 
 		}
 		
