@@ -1,24 +1,67 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 
 public class GhostTrail : MonoBehaviour {
-    public Color c1 = Color.yellow;
-    public Color c2 = Color.red;
-    public int lengthOfLineRenderer = 200;
-    void Start() {
-        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-        lineRenderer.SetColors(c1, c2);
-        lineRenderer.SetWidth(0.2F, 0.2F);
-        lineRenderer.SetVertexCount(lengthOfLineRenderer);
+    public Color white = Color.white;
+    public Color red   = Color.red;
+    public int line_point_count = 0;
+	public float line_width = 0.2F;
+
+	Vector3 last_position;
+	LineRenderer current_line;
+	List<LineRenderer> line_segments = new List<LineRenderer>();
+
+    void Start()
+	{
+		current_line = new_line(white);
     }
-    void Update() {
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
-        int i = 0;
-        while (i < lengthOfLineRenderer) {
-            Vector3 pos = new Vector3(i * 0.1F, Mathf.Sin(i*0.2F + Time.time), 0);
-            lineRenderer.SetPosition(i, pos);
-            i++;
-        }
+
+
+    void Update()
+	{
+        if (Input.GetButtonDown("Fire1")) { current_line = new_line(red);   }
+        if (Input.GetButtonUp  ("Fire1")) { current_line = new_line(white); }
+
+
+		if(Input.GetButton("Jump"))
+		{
+			Vector3 position = new Vector3(transform.position.x, transform.position.y);
+
+			last_position = position;
+
+			line_point_count += 1;
+			current_line.SetVertexCount(line_point_count);
+			current_line.SetPosition(line_point_count-1, position);
+		}
     }
+
+
+	LineRenderer new_line(Color line_color)
+	{
+		GameObject line_object = new GameObject("Empty");
+
+        LineRenderer line_renderer = line_object.AddComponent<LineRenderer>();
+        line_renderer.material = new Material(Shader.Find("Particles/Additive"));
+        line_renderer.SetColors(line_color, line_color);
+        line_renderer.SetWidth(line_width, line_width);
+
+		// Reset for new line
+		line_point_count = 0;
+        line_renderer.SetVertexCount(line_point_count);
+
+		// position of last trail end point
+		if(line_segments.Count > 0)
+		{
+			line_point_count = 1;
+			line_renderer.SetVertexCount(line_point_count);
+			line_renderer.SetPosition(line_point_count-1, last_position);
+		}
+
+		// List of line segments for this object
+		line_segments.Add(line_renderer);
+
+		return line_renderer;
+	}
 }
