@@ -23,15 +23,19 @@ public class PhysicsEngine : MonoBehaviour {
 			return;
 		}
 		Rocket rocket = GameControl.rocket;
-		if(rocket.thrustMagnitude >= 15f){
-			float deltaThrust = 15f;
-			rocket.thrustMagnitude -= deltaThrust;
-			rocket.GetComponent<Rigidbody2D>().AddForce(Vector2.right * deltaThrust);
-		}
+		rocket.combinedGravitation = Vector2.zero;
 		foreach(Star s in stars){
 			Vector2 forceOnRocket = s.CalculateGravity();
+			rocket.combinedGravitation += forceOnRocket;
+
 			rocket.GetComponent<Rigidbody2D>().AddForce(forceOnRocket);
 		}
+		//rotation always perpendicular to combined force
+		Vector2 combinedForceDir = rocket.combinedGravitation + rocket.currentThrust;
+		Vector2 vel = rocket.GetComponent<Rigidbody2D>().velocity;
+		float angle = Mathf.Rad2Deg * Mathf.Atan2(vel.y,vel.x);
+		//float angle = Mathf.Rad2Deg * Mathf.Atan2(combinedForceDir.y,combinedForceDir.x);
+		rocket.transform.eulerAngles = new Vector3(0,0, angle);
 	}
 	// Update is called once per frame
 	void Update () {
