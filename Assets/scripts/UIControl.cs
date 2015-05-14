@@ -4,6 +4,7 @@ using System.Collections;
 
 public class UIControl : MonoBehaviour {
 	public Text timerText;
+	public Text fuelText;
 	public GameObject timerPanel;
 
 	public void UpdateTimer(float timeLeft){
