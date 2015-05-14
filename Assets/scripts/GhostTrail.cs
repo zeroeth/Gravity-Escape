@@ -13,6 +13,8 @@ public class GhostTrail : MonoBehaviour {
 	LineRenderer current_line;
 	List<LineRenderer> line_segments = new List<LineRenderer>();
 
+	float last_point_time = 0.0F;
+
     void Start()
 	{
 		current_line = new_line(white);
@@ -21,20 +23,11 @@ public class GhostTrail : MonoBehaviour {
 
     void Update()
 	{
+		// Thrust vs Glide
         if (Input.GetButtonDown("Fire1")) { current_line = new_line(red);   }
         if (Input.GetButtonUp  ("Fire1")) { current_line = new_line(white); }
 
-
-		if(Input.GetButton("Jump"))
-		{
-			Vector3 position = new Vector3(transform.position.x, transform.position.y);
-
-			last_position = position;
-
-			line_point_count += 1;
-			current_line.SetVertexCount(line_point_count);
-			current_line.SetPosition(line_point_count-1, position);
-		}
+		track_position();
     }
 
 
@@ -63,5 +56,31 @@ public class GhostTrail : MonoBehaviour {
 		line_segments.Add(line_renderer);
 
 		return line_renderer;
+	}
+
+
+	void track_position()
+	{
+		if(should_track())
+		{
+			Vector3 position = new Vector3(transform.position.x, transform.position.y);
+
+			last_position = position;
+
+			line_point_count += 1;
+			current_line.SetVertexCount(line_point_count);
+			current_line.SetPosition(line_point_count-1, position);
+		}
+	}
+
+
+	bool should_track()
+	{
+		if(Time.time - last_point_time > 0.001F)
+		{
+			last_point_time = Time.time;
+			return true;
+		}
+		return false;
 	}
 }
