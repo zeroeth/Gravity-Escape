@@ -4,7 +4,7 @@ using System.Collections;
 public class GhostTrail : MonoBehaviour {
     public Color c1 = Color.yellow;
     public Color c2 = Color.red;
-    public int lengthOfLineRenderer = 20;
+    public int lengthOfLineRenderer = 200;
     void Start() {
         LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
@@ -16,7 +16,7 @@ public class GhostTrail : MonoBehaviour {
         LineRenderer lineRenderer = GetComponent<LineRenderer>();
         int i = 0;
         while (i < lengthOfLineRenderer) {
-            Vector3 pos = new Vector3(i * 0.5F, Mathf.Sin(i + Time.time), 0);
+            Vector3 pos = new Vector3(i * 0.1F, Mathf.Sin(i*0.2F + Time.time), 0);
             lineRenderer.SetPosition(i, pos);
             i++;
         }
