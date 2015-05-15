@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 
 public class GhostTrail : MonoBehaviour {
-    public Color white = Color.white;
-    public Color red   = Color.red;
     public int line_point_count = 0;
 	public float line_width = 0.2F;
 
