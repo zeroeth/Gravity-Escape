@@ -2,3 +2,11 @@
 Star: 	change Gravity Const and Mass in <Star> 
 Rocket: change Mass in <Rocket>, 
 		change Thrust Magnitude in <Rocket>
+
+
+/Assets/prefabs/optional, optional depending on levels
+If the goal is to land on a planet:
+	1.Add LandingPlanet to scene, change Max Impulse in <LandingPlanet>
+	change Gravity Const and Mass in <LandingPlanet> just like <Star>
+	
+	2.Only one LandingPlanet is allowed in one scene 
