@@ -12,6 +12,7 @@ public class GameControl : MonoBehaviour {
 	public float prepTime;
 	public float maxOutOfViewportTime;
 	public float outOfViewportTime;
+	public float crashTime;
 	void Awake(){
 		maxOutOfViewportTime = 3f;
 		self = this;
@@ -19,6 +20,7 @@ public class GameControl : MonoBehaviour {
 		Init();
 	}
 	void Init(){
+		crashTime = 2.0f;
 		prepTime = 5f;
 		outOfViewportTime = 0f;
 		Time.timeScale = 1.0f;
@@ -62,18 +64,27 @@ public class GameControl : MonoBehaviour {
 		
 
 	}
+	void HandleThrusting(){
+		if(Input.GetButton("Fire1")){
+			rocket.thrusting = true;
+			rocket.state = (int)Rocket.State.thrusting;
+			rocket.ApplyThrust();
+		}else {
+			rocket.state = (int)Rocket.State.flying;
+			rocket.thrusting = false;
+		}
+	}
 	// Update is called once per frame
 	void Update () {
 		//Count 5
 		if(prepTime > 0f){
 			prepTime -= Time.deltaTime;
 			uiControl.UpdateTimer(Mathf.Max(0f,prepTime));
-
 		}else{
 			if(!physics.physicsStarted){
 				//before starting physics
 				uiControl.HideTimerPanel();
-
+				rocket.state = (int)Rocket.State.flying;
 				rocket.ghostTrail.enabled = true;
 			}
 			physics.physicsStarted = true;
@@ -81,16 +92,23 @@ public class GameControl : MonoBehaviour {
 			//game over
 			
 			RocketInViewportTest();
+
 			if(outOfViewportTime >= maxOutOfViewportTime){
 				OnGameOver();
 				return;
 			}
-			if(Input.GetButton("Fire1")){
-				rocket.thrusting = true;
-				rocket.ApplyThrust();
-			}else {
-				rocket.thrusting = false;
+			if(rocket.state == (int)Rocket.State.crashing){
+				if(crashTime > 0f){
+					crashTime = Mathf.Max(0f, crashTime-Time.deltaTime);
+				}else{
+					//crash done
+					OnGameOver();
+					return;
+				}
+			}else{
+				HandleThrusting();
 			}
+			
 
 		}
 		

@@ -23,9 +23,10 @@ public class LandingPlanet : Star {
 			Debug.Log(impulseMagnitude);
 			if(impulseMagnitude > maxImpulse){
 				Debug.Log("crashed!");
+				collision.gameObject.GetComponent<Rocket>().Crash();
 			}else{
 				//load next level
-				
+
 			}
 		}
 	}
