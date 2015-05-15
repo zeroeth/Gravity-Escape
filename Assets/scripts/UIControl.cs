@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class UIControl : MonoBehaviour {
-	public Text timerText;
-	public Text fuelText;
-	public GameObject timerPanel;
+	[HideInInspector]public Text timerText;
+	[HideInInspector]public Text fuelText;
+	[HideInInspector]public GameObject timerPanel;
 
 	public void UpdateTimer(float timeLeft){
 		timerText.text = timeLeft.ToString("0");
@@ -18,6 +18,23 @@ public class UIControl : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
+		GameObject timerObj = GameObject.Find("TimerText");
+		if(timerObj == null){
+			Debug.Log("no timer text named 'TimerText'!");
+			Application.Quit();
+		}
+		GameObject fuelObj = GameObject.Find("FuelText");
+		if(fuelObj == null){
+			Debug.Log("no fuel named 'FuelText'!");
+			Application.Quit();
+		}
+		timerPanel = GameObject.Find("TimerPanel");
+		if(timerPanel == null){
+			Debug.Log("no timer panel named 'TimerPanel'!");
+			Application.Quit();
+		}
+		timerText = timerObj.GetComponent<Text>();
+		fuelText = fuelObj.GetComponent<Text>();
 		timerPanel.SetActive(true);
 	}
 	
