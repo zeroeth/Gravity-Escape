@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 
 public class GhostTrail : MonoBehaviour {
-    public Color white = Color.white;
-    public Color red   = Color.red;
     public int line_point_count = 0;
 	public float line_width = 0.2F;
 
@@ -15,29 +13,32 @@ public class GhostTrail : MonoBehaviour {
 
 	public float last_point_time = 0.0F;
 
+	public Material off_color;
+	public Material on_color;
+
     void Start()
 	{
-		current_line = new_line(white);
+		current_line = new_line(off_color);
     }
 
 
     void Update()
 	{
 		// Thrust vs Glide
-        if (Input.GetButtonDown("Fire1")) { current_line = new_line(red);   }
-        if (Input.GetButtonUp  ("Fire1")) { current_line = new_line(white); }
+        if (Input.GetButtonDown("Fire1")) { current_line = new_line(on_color);  }
+        if (Input.GetButtonUp  ("Fire1")) { current_line = new_line(off_color); }
 
 		track_position();
     }
 
 
-	public LineRenderer new_line(Color line_color)
+	public LineRenderer new_line(Material line_color)
 	{
 		GameObject line_object = new GameObject("Empty");
 
         LineRenderer line_renderer = line_object.AddComponent<LineRenderer>();
-        line_renderer.material = new Material(Shader.Find("Particles/Additive"));
-        line_renderer.SetColors(line_color, line_color);
+
+		line_renderer.material = line_color;
         line_renderer.SetWidth(line_width, line_width);
 
 		// Reset for new line
