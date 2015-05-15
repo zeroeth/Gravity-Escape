@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent (typeof(Rigidbody2D))]
 public class Rocket : MonoBehaviour {
 	public float mass;
-	public float thrustMagnitude;
+	public float thrustMagnitude; //assign in inspector
 	public float fuel;
 	public Vector2 flyingDirection;
 	public bool thrusting;
@@ -12,7 +12,10 @@ public class Rocket : MonoBehaviour {
 	public Vector2 combinedGravitation;
 	void Awake(){
 		GameControl.rocket = this;
-		thrustMagnitude = 0f;
+		if(thrustMagnitude <= 0f){
+			thrustMagnitude = 10f;
+		}
+		
 		fuel = 1000f;
 		flyingDirection = Vector2.up;
 		currentThrust = Vector2.zero;
@@ -21,9 +24,7 @@ public class Rocket : MonoBehaviour {
 	}
 	public void ApplyThrust(){
 		if(thrustMagnitude > 0f){
-			float deltaThrust = Mathf.Min(10f, thrustMagnitude);
-			thrustMagnitude -= deltaThrust;
-			currentThrust = flyingDirection * deltaThrust;
+			currentThrust = flyingDirection * thrustMagnitude;
 			GetComponent<Rigidbody2D>().AddForce(currentThrust);
 			flyingDirection = GetComponent<Rigidbody2D>().velocity;
 			flyingDirection.Normalize();
@@ -39,8 +40,5 @@ public class Rocket : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(thrusting){
-			ApplyThrust();
-		}
 	}
 }

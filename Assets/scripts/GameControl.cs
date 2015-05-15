@@ -44,11 +44,13 @@ public class GameControl : MonoBehaviour {
 		if(prepTime > 0f){
 			prepTime -= Time.deltaTime;
 			uiControl.UpdateTimer(Mathf.Max(0f,prepTime));
+			/*
 			if(Input.GetButton("Fire1")){
 				rocket.thrustMagnitude += 15f ; //thrust = f*t
 			}else{
 				rocket.thrustMagnitude = 0f;
 			}
+			*/
 		}else{
 			if(!physics.physicsStarted){
 				//before starting physics
@@ -64,11 +66,10 @@ public class GameControl : MonoBehaviour {
 				return;
 			}
 			if(Input.GetButton("Fire1")){
-				rocket.thrustMagnitude += 10f;
-			}else if(Input.GetButtonUp("Fire1")){
-				//apply thrust
-				Debug.Log("thrusting");
 				rocket.thrusting = true;
+				rocket.ApplyThrust();
+			}else {
+				rocket.thrusting = false;
 			}
 
 		}
