@@ -45,6 +45,7 @@ public class Rocket : MonoBehaviour {
 	}
 	public void Crash(){
 		state = (int)State.crashing;
+		
 	}
 	public void ApplyThrust(){
 		if(thrustMagnitude > 0f){
