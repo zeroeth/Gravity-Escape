@@ -36,7 +36,9 @@ public class Star : MonoBehaviour {
 			Debug.Log(impulseMagnitude);
 			//if(impulseMagnitude > maxImpulse){
 				Debug.Log("crashed!");
-				collision.gameObject.GetComponent<Rocket>().Crash();
+				//SceneLoader.load = true;
+				SceneLoader.self.LoadNextLevel();
+				//collision.gameObject.GetComponent<Rocket>().Crash();
 			//}
 		}
 	}
