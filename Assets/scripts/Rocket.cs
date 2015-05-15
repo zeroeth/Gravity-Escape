@@ -10,17 +10,24 @@ public class Rocket : MonoBehaviour {
 	public bool thrusting;
 	public Vector2 currentThrust;
 	public Vector2 combinedGravitation;
+	[HideInInspector]Vector2 initialPosition;
 	void Awake(){
 		GameControl.rocket = this;
 		if(thrustMagnitude <= 0f){
 			thrustMagnitude = 10f;
 		}
+		initialPosition = transform.position;
 		
+		GetComponent<Rigidbody2D>().mass = mass;
+		Init();
+	}
+	public void Init(){
 		fuel = 1000f;
 		flyingDirection = Vector2.up;
 		currentThrust = Vector2.zero;
 		combinedGravitation = Vector2.zero;
-		GetComponent<Rigidbody2D>().mass = mass;
+		transform.position = initialPosition;
+		transform.rotation = Quaternion.identity;
 	}
 	public void ApplyThrust(){
 		if(thrustMagnitude > 0f){

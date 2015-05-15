@@ -13,6 +13,9 @@ public class UIControl : MonoBehaviour {
 	public void HideTimerPanel(){
 		timerPanel.SetActive(false);
 	}
+	public void Init(){
+		timerPanel.SetActive(true);
+	}
 	void Awake(){
 		GameControl.uiControl = this;
 	}
@@ -35,9 +38,9 @@ public class UIControl : MonoBehaviour {
 		}
 		timerText = timerObj.GetComponent<Text>();
 		fuelText = fuelObj.GetComponent<Text>();
-		timerPanel.SetActive(true);
+		Init();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	

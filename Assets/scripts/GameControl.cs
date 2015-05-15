@@ -11,11 +11,15 @@ public class GameControl : MonoBehaviour {
 	public float maxOutOfViewportTime;
 	public float outOfViewportTime;
 	void Awake(){
-		prepTime = 5f;
 		maxOutOfViewportTime = 3f;
-		outOfViewportTime = 0f;
 		self = this;
 		mainCamera = Camera.main;
+		Init();
+	}
+	void Init(){
+		prepTime = 5f;
+		outOfViewportTime = 0f;
+		Time.timeScale = 1.0f;
 	}
 	// Use this for initialization
 	void Start () {
@@ -35,7 +39,16 @@ public class GameControl : MonoBehaviour {
 	void OnGameOver(){
 		Time.timeScale = 0f;
 		physics.physicsStarted = false;
-		//start playing back trails
+		//destroy all line renderers
+		LineRenderer[] lineRenderers 
+			= GameObject.FindObjectsOfType<LineRenderer>() as LineRenderer[];
+		foreach(LineRenderer lr in lineRenderers){
+			Destroy(lr.gameObject);
+		}
+		//reset current scene
+		rocket.Init();
+		uiControl.Init();
+		Init();
 
 	}
 	// Update is called once per frame
@@ -44,13 +57,7 @@ public class GameControl : MonoBehaviour {
 		if(prepTime > 0f){
 			prepTime -= Time.deltaTime;
 			uiControl.UpdateTimer(Mathf.Max(0f,prepTime));
-			/*
-			if(Input.GetButton("Fire1")){
-				rocket.thrustMagnitude += 15f ; //thrust = f*t
-			}else{
-				rocket.thrustMagnitude = 0f;
-			}
-			*/
+
 		}else{
 			if(!physics.physicsStarted){
 				//before starting physics
