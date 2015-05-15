@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameControl : MonoBehaviour {
+	public GameObject rocketPrefab;
 	public static Rocket rocket;
 	public static PhysicsEngine physics;
 	public static UIControl uiControl;
@@ -41,18 +43,21 @@ public class GameControl : MonoBehaviour {
 		physics.physicsStarted = false;
 		
 		//reset current scene
-		rocket.Init();
-		uiControl.Init();
-		Init();
+		Destroy(rocket.gameObject);
 		//destroy all line renderers
 		LineRenderer[] lineRenderers 
 			= GameObject.FindObjectsOfType<LineRenderer>() as LineRenderer[];
 		foreach(LineRenderer lr in lineRenderers){
 			Destroy(lr.gameObject);
 		}
-		if(rocket.ghostTrail != null){
-			rocket.ghostTrail.enabled = false;
-		}
+		GameObject newRocket = Instantiate(rocketPrefab) as GameObject;
+		rocket = newRocket.GetComponent<Rocket>();
+		rocket.gameObject.name = "rocket";
+		
+		uiControl.Init();
+		Init();
+		
+		
 
 	}
 	// Update is called once per frame

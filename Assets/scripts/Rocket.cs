@@ -10,6 +10,7 @@ public class Rocket : MonoBehaviour {
 	public bool thrusting;
 	public Vector2 currentThrust;
 	public Vector2 combinedGravitation;
+	
 	[HideInInspector]Vector2 initialPosition;
 	[HideInInspector]public GhostTrail ghostTrail;
 	void Awake(){

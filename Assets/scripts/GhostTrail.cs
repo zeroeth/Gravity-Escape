@@ -31,7 +31,7 @@ public class GhostTrail : MonoBehaviour {
     }
 
 
-	LineRenderer new_line(Color line_color)
+	public LineRenderer new_line(Color line_color)
 	{
 		GameObject line_object = new GameObject("Empty");
 
