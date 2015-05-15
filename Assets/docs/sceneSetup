@@ -1,3 +1,4 @@
 /Assets/prefabs/sceneSetup, drag everything in to the scene
-Star: 	change Gravity Const and Mass in the Star component 
-Rocket: change Mass in Rocket component
+Star: 	change Gravity Const and Mass in <Star> 
+Rocket: change Mass in <Rocket>, 
+		change Thrust Magnitude in <Rocket>
