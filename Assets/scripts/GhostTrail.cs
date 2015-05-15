@@ -16,6 +16,8 @@ public class GhostTrail : MonoBehaviour {
 	public Material off_color;
 	public Material on_color;
 
+	bool new_segments_allowed = true;
+
     void Start()
 	{
 		current_line = new_line(off_color);
@@ -25,12 +27,22 @@ public class GhostTrail : MonoBehaviour {
     void Update()
 	{
 		// Thrust vs Glide
-        if (Input.GetButtonDown("Fire1")) { current_line = new_line(on_color);  }
-        if (Input.GetButtonUp  ("Fire1")) { current_line = new_line(off_color); }
+        if (should_track_on ()) { current_line = new_line(on_color);  }
+        if (should_track_off()) { current_line = new_line(off_color); }
 
 		track_position();
     }
 
+
+	bool should_track_on()
+	{
+		return Input.GetButtonDown("Fire1") && new_segments_allowed;
+	}
+
+	bool should_track_off()
+	{
+		return Input.GetButtonUp("Fire1") && new_segments_allowed;
+	}
 
 	public LineRenderer new_line(Material line_color)
 	{
@@ -83,5 +95,12 @@ public class GhostTrail : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+
+	public void disable_new_segments()
+	{
+		new_segments_allowed = false;
+		current_line = new_line(off_color);
 	}
 }
