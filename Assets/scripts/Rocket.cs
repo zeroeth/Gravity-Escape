@@ -11,13 +11,17 @@ public class Rocket : MonoBehaviour {
 	public Vector2 currentThrust;
 	public Vector2 combinedGravitation;
 	[HideInInspector]Vector2 initialPosition;
+	[HideInInspector]public GhostTrail ghostTrail;
 	void Awake(){
 		GameControl.rocket = this;
 		if(thrustMagnitude <= 0f){
 			thrustMagnitude = 10f;
 		}
 		initialPosition = transform.position;
-		
+		ghostTrail = GetComponent<GhostTrail>();
+		if(ghostTrail != null){
+			ghostTrail.enabled = false;
+		}
 		GetComponent<Rigidbody2D>().mass = mass;
 		Init();
 	}
@@ -28,6 +32,8 @@ public class Rocket : MonoBehaviour {
 		combinedGravitation = Vector2.zero;
 		transform.position = initialPosition;
 		transform.rotation = Quaternion.identity;
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+		
 	}
 	public void ApplyThrust(){
 		if(thrustMagnitude > 0f){

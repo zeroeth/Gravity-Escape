@@ -39,16 +39,20 @@ public class GameControl : MonoBehaviour {
 	void OnGameOver(){
 		Time.timeScale = 0f;
 		physics.physicsStarted = false;
+		
+		//reset current scene
+		rocket.Init();
+		uiControl.Init();
+		Init();
 		//destroy all line renderers
 		LineRenderer[] lineRenderers 
 			= GameObject.FindObjectsOfType<LineRenderer>() as LineRenderer[];
 		foreach(LineRenderer lr in lineRenderers){
 			Destroy(lr.gameObject);
 		}
-		//reset current scene
-		rocket.Init();
-		uiControl.Init();
-		Init();
+		if(rocket.ghostTrail != null){
+			rocket.ghostTrail.enabled = false;
+		}
 
 	}
 	// Update is called once per frame
@@ -62,6 +66,7 @@ public class GameControl : MonoBehaviour {
 			if(!physics.physicsStarted){
 				//before starting physics
 				uiControl.HideTimerPanel();
+				rocket.ghostTrail.enabled = true;
 			}
 			physics.physicsStarted = true;
 			//if rocket is out of sight for more than 3 seconds
