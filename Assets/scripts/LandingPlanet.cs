@@ -2,13 +2,10 @@
 using System.Collections;
 
 public class LandingPlanet : Star {
-	public float maxImpulse; //max impulse allowed without crashing the rocket
-	void Awake(){
-		if(maxImpulse <= 0f){
-			maxImpulse = 2.3f;
-		}
+	public override void Awake(){
+		base.Awake();
 	}
-	void OnCollisionEnter2D(Collision2D collision){
+	public override void OnCollisionEnter2D(Collision2D collision){
 		if(collision.gameObject.tag == "Rocket"){
 			//check if mv is too large
 			if(collision.contacts == null || collision.contacts.Length == 0){
