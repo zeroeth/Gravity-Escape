@@ -5,7 +5,7 @@ public class LandingPlanet : Star {
 	public float maxImpulse; //max impulse allowed without crashing the rocket
 	void Awake(){
 		if(maxImpulse <= 0f){
-			maxImpulse = 2.6f;
+			maxImpulse = 2.3f;
 		}
 	}
 	void OnCollisionEnter2D(Collision2D collision){
@@ -23,6 +23,9 @@ public class LandingPlanet : Star {
 			Debug.Log(impulseMagnitude);
 			if(impulseMagnitude > maxImpulse){
 				Debug.Log("crashed!");
+			}else{
+				//load next level
+				
 			}
 		}
 	}
