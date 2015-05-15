@@ -10,7 +10,13 @@ public class Rocket : MonoBehaviour {
 	public bool thrusting;
 	public Vector2 currentThrust;
 	public Vector2 combinedGravitation;
-
+	public int state;
+	public enum State{
+		preLauch,
+		flying,
+		thrusting,
+		crashing
+	};
 	[HideInInspector]Vector2 initialPosition;
 	[HideInInspector]public GhostTrail ghostTrail;
 	void Awake(){
@@ -28,6 +34,7 @@ public class Rocket : MonoBehaviour {
 	}
 	public void Init(){
 		fuel = 1000f;
+		state = (int)State.preLauch;
 		flyingDirection = Vector2.up;
 		currentThrust = Vector2.zero;
 		combinedGravitation = Vector2.zero;
@@ -35,6 +42,9 @@ public class Rocket : MonoBehaviour {
 		transform.rotation = Quaternion.identity;
 		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		
+	}
+	public void Crash(){
+		state = (int)State.crashing;
 	}
 	public void ApplyThrust(){
 		if(thrustMagnitude > 0f){
@@ -54,5 +64,6 @@ public class Rocket : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 	}
 }
