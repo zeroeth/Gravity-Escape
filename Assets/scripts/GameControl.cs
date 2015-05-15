@@ -45,15 +45,17 @@ public class GameControl : MonoBehaviour {
 		//reset current scene
 		Destroy(rocket.gameObject);
 		//destroy all line renderers
+		/*
 		LineRenderer[] lineRenderers 
 			= GameObject.FindObjectsOfType<LineRenderer>() as LineRenderer[];
 		foreach(LineRenderer lr in lineRenderers){
 			Destroy(lr.gameObject);
 		}
+		*/
 		GameObject newRocket = Instantiate(rocketPrefab) as GameObject;
 		rocket = newRocket.GetComponent<Rocket>();
 		rocket.gameObject.name = "rocket";
-		
+
 		uiControl.Init();
 		Init();
 		
@@ -71,7 +73,8 @@ public class GameControl : MonoBehaviour {
 			if(!physics.physicsStarted){
 				//before starting physics
 				uiControl.HideTimerPanel();
-				rocket.ghostTrail.enabled = true;
+
+				//rocket.ghostTrail.enabled = true;
 			}
 			physics.physicsStarted = true;
 			//if rocket is out of sight for more than 3 seconds
