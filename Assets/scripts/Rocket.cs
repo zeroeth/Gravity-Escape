@@ -12,7 +12,7 @@ public class Rocket : MonoBehaviour {
 	public Vector2 combinedGravitation;
 	public int state;
 	public enum State{
-		preLauch,
+		preLaunch,
 		flying,
 		thrusting,
 		crashing
@@ -34,7 +34,7 @@ public class Rocket : MonoBehaviour {
 	}
 	public void Init(){
 		fuel = 1000f;
-		state = (int)State.preLauch;
+		state = (int)State.preLaunch;
 		flyingDirection = Vector2.up;
 		currentThrust = Vector2.zero;
 		combinedGravitation = Vector2.zero;
@@ -64,6 +64,6 @@ public class Rocket : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }

@@ -77,17 +77,21 @@ public class GameControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//Count 5
-		if(prepTime > 0f){
+		if(rocket.state == (int)Rocket.State.preLaunch){
 			prepTime -= Time.deltaTime;
 			uiControl.UpdateTimer(Mathf.Max(0f,prepTime));
-		}else{
-			if(!physics.physicsStarted){
+			if(prepTime <= 0){
+				rocket.state = (int)Rocket.State.flying;
 				//before starting physics
 				uiControl.HideTimerPanel();
 				rocket.state = (int)Rocket.State.flying;
 				rocket.ghostTrail.enabled = true;
+				//start physics
+				physics.physicsStarted = true;
 			}
-			physics.physicsStarted = true;
+		}
+		else if(rocket.state == (int)Rocket.State.flying
+			|| rocket.state == (int)Rocket.State.thrusting){
 			//if rocket is out of sight for more than 3 seconds
 			//game over
 			
@@ -95,21 +99,20 @@ public class GameControl : MonoBehaviour {
 
 			if(outOfViewportTime >= maxOutOfViewportTime){
 				OnGameOver();
-				return;
-			}
-			if(rocket.state == (int)Rocket.State.crashing){
-				if(crashTime > 0f){
-					crashTime = Mathf.Max(0f, crashTime-Time.deltaTime);
-				}else{
-					//crash done
-					OnGameOver();
-					return;
-				}
 			}else{
 				HandleThrusting();
 			}
 			
-
+		}
+		else if(rocket.state == (int)Rocket.State.crashing){
+			physics.physicsStarted = false;
+			if(crashTime > 0f){
+				crashTime = Mathf.Max(0f, crashTime-Time.deltaTime);
+			}else{
+				//crash done
+				OnGameOver();
+				return;
+			}
 		}
 		
 	}
