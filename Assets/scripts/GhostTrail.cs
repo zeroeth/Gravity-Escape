@@ -9,11 +9,11 @@ public class GhostTrail : MonoBehaviour {
     public int line_point_count = 0;
 	public float line_width = 0.2F;
 
-	Vector3 last_position;
-	LineRenderer current_line;
-	List<LineRenderer> line_segments = new List<LineRenderer>();
+	public Vector3 last_position;
+	public LineRenderer current_line;
+	public List<LineRenderer> line_segments = new List<LineRenderer>();
 
-	float last_point_time = 0.0F;
+	public float last_point_time = 0.0F;
 
     void Start()
 	{
