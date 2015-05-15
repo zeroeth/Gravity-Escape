@@ -8,7 +8,7 @@ public class Star : MonoBehaviour {
 	public float maxImpulse; //max impulse allowed without crashing the rocket
 	public virtual void Awake(){
 		if(maxImpulse <= 0f){
-			maxImpulse = 0.1f;
+			maxImpulse = 2.0f;
 		}
 	}
 	// Use this for initialization
@@ -34,12 +34,11 @@ public class Star : MonoBehaviour {
 			Vector2 mv = rocketRigidbody.mass * rocketRigidbody.velocity;
 			float impulseMagnitude = Mathf.Abs(Vector2.Dot(mv, contactNormal.normalized));
 			Debug.Log(impulseMagnitude);
-			//if(impulseMagnitude > maxImpulse){
+			if(impulseMagnitude > maxImpulse){
 				Debug.Log("crashed!");
-				//SceneLoader.load = true;
-				SceneLoader.self.LoadNextLevel();
-				//collision.gameObject.GetComponent<Rocket>().Crash();
-			//}
+				collision.gameObject.GetComponent<Rocket>().Crash();
+			}
+				
 		}
 	}
 	void Start () {

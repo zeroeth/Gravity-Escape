@@ -23,7 +23,7 @@ public class LandingPlanet : Star {
 				collision.gameObject.GetComponent<Rocket>().Crash();
 			}else{
 				//load next level
-
+				SceneLoader.self.LoadNextLevel();
 			}
 		}
 	}
