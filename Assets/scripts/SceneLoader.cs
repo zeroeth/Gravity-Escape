@@ -21,7 +21,7 @@ public class SceneLoader : MonoBehaviour {
 	}
 	
 	public void LoadNextLevel(){
-		if(!Application.isLoadingLevel){
+		if(!Application.isLoadingLevel && currentSceneIdx+1 < scenes.Count){
 			Application.LoadLevel(scenes[currentSceneIdx+1]);
 			currentSceneIdx++;
 		}
