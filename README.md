@@ -1,4 +1,6 @@
-Gravity-Escape
+![preview](https://raw.github.com/zeroeth/Gravity-Escape/master/preview.jpg)
+
+Gravity Escape
 ==============
 
 A gravity game in Unity3D.
